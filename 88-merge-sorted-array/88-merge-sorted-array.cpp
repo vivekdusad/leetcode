@@ -7,30 +7,17 @@ public:
             nums1 = nums2;
             return;
         }
-        vector<int> result;
-        int nums1_i=0;
-        int nums2_i=0;
-        while(nums1_i<m and nums2_i<n){
-            if(nums1[nums1_i]<nums2[nums2_i]){//smaller
-                result.push_back(nums1[nums1_i]);
-                nums1_i++;
-            }else if(nums1[nums1_i]==nums2[nums2_i]){//equal
-                result.push_back(nums2[nums2_i]);
-                result.push_back(nums1[nums1_i]);
-                nums1_i++;
-                nums2_i++;
-            }else{//greator
-                result.push_back(nums2[nums2_i]);
-                nums2_i++;
-            }
+        int i,k;
+        for(i=0;i<m;i++){
+             if(nums1[i]>nums2[0])
+                swap(nums1[i],nums2[0]);           
+            int first = nums2[0];
+            for(k=1;(k<n and nums2[k]<first);k++)
+                nums2[k-1] = nums2[k];
+            nums2[k-1] = first;
         }
-        
-        for(int i=nums1_i;i<m;i++){
-            result.push_back(nums1[i]);
+        for(k=i;k<m+n;k++){
+            nums1[k] = nums2[k-m];
         }
-        for(int i=nums2_i;i<n;i++){
-            result.push_back(nums2[i]);
-        }
-        nums1 = result;
     }
 };
