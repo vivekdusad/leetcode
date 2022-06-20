@@ -11,11 +11,14 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int x) {
+        //There is an edge case where x==n
+        if(head->next==NULL) return head->next;
         ListNode* start = new ListNode();
         start->next = head;
+        
         ListNode* slow = start;
         ListNode* fast = start;
-        for(int i=0;i<x;i++){
+        for(int i=1;i<=x;i++){
             fast = fast->next;
         }
         while(fast and fast->next != NULL){
