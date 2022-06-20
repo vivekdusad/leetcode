@@ -20,9 +20,9 @@ public:
     */
     ListNode* middleNode(ListNode* head) {
         // in the first itereate find the last node
-        ListNode *slow = head, *fast = head;
-        while (fast && fast->next)
-            slow = slow->next, fast = fast->next->next;
+        ListNode *slow = head,*fast = head;
+        while(fast and fast->next)
+            fast = fast->next->next,slow = slow->next;
         return slow;
     }
 };
