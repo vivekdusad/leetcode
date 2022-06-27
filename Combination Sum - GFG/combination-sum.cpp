@@ -12,29 +12,28 @@ class Solution {
   public:
     //Function to return a list of indexes denoting the required 
     //combinations whose sum is equal to given number.
-      void findCombination(int ind, int target, vector < int > & arr, vector < vector < int >> & ans, vector < int > & ds) {
-      if (ind == arr.size()) {
-        if (target == 0) {
-          ans.push_back(ds);
+     void findCombinationSum(vector<int> nums,int index,int target,vector<int> &temp,vector<vector<int>> &ans){
+        if(target==0){
+            ans.push_back(temp);
         }
-        return;
-      }
-      // pick up the element 
-      if (arr[ind] <= target) {
-        ds.push_back(arr[ind]);
-        findCombination(ind, target - arr[ind], arr, ans, ds);
-        ds.pop_back();
-      }
-
-      findCombination(ind + 1, target, arr, ans, ds);
-
+        if(target<nums[index]){
+            return;
+        }
+        
+        for(int i=index;i<nums.size();i++){
+            //pick that number
+            temp.push_back(nums[i]);
+            findCombinationSum(nums,i,target-nums[i],temp,ans);
+            //do not pick that number
+            temp.pop_back();            
+        }
     }
     vector<vector<int>> combinationSum(vector<int> &nums, int target) {
         sort(nums.begin(),nums.end());
         nums.erase(unique(nums.begin(), nums.end()), nums.end());
         vector<int> temp;
         vector<vector<int>> ans;
-        findCombination(0,target,nums,ans,temp);
+        findCombinationSum(nums,0,target,temp,ans);
         return ans;
     }
 };
