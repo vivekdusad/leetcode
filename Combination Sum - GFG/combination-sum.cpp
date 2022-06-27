@@ -22,6 +22,7 @@ class Solution {
         
         for(int i=index;i<nums.size();i++){
             //pick that number
+            if(i != index and nums[i]==nums[i-1]) continue;
             temp.push_back(nums[i]);
             findCombinationSum(nums,i,target-nums[i],temp,ans);
             //do not pick that number
@@ -30,7 +31,7 @@ class Solution {
     }
     vector<vector<int>> combinationSum(vector<int> &nums, int target) {
         sort(nums.begin(),nums.end());
-        nums.erase(unique(nums.begin(), nums.end()), nums.end());
+        // nums.erase(unique(nums.begin(), nums.end()), nums.end());
         vector<int> temp;
         vector<vector<int>> ans;
         findCombinationSum(nums,0,target,temp,ans);
