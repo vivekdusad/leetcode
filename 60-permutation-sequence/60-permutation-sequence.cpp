@@ -2,37 +2,26 @@ class Solution {
 public:
     string getPermutation(int n, int k) {
         //generate number
-        string s="";
-        for(int i=1;i<=n;i++){
-            s += to_string(i);
+        int fact =1;
+        vector<int> nums;
+        for(int i=1;i<n;i++){
+            fact *= i;
+            nums.push_back(i);
         }
+        //123
+        nums.push_back(n);
         //1234
-        for(int i=1;i<k;i++){
-            s = nextPermutation(s);
-        }
-        return s;
-    }
-    string nextPermutation(string s){
-        int breakPoint=-1;
-        for(int i=s.size()-1;i>=0;i--){
-            int a = s[i]-'0';
-            int b = s[i+1]-'0';
-            if(b>a){
-               breakPoint = i;
-                break;
+        k = k-1;
+        string ans = "";
+        while(true){
+            ans = ans + to_string(nums[k/fact]);
+            nums.erase(nums.begin()+k/fact);
+            if(nums.size()==0){
+                return ans;
             }
+            k = k%fact;
+            fact = fact/nums.size();
         }
-        if(breakPoint==-1){
-            sort(s.begin(),s.end());
-            return s;
-        }
-        for(int i = s.size()-1;i>0;i--){
-            if((s[i]-'0')>(s[breakPoint]-'0')){
-                swap(s[i],s[breakPoint]);
-                reverse(s.begin()+breakPoint+1,s.end());
-                break;
-            }
-        }
-        return s;
     }
+    
 };
