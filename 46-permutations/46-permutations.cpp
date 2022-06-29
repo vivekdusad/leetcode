@@ -1,22 +1,27 @@
 class Solution {
 public:
-    void generatePermultation(vector<int> &nums,int l,int r, vector<vector<int>> &ans){
-        if(l==r){
-            ans.push_back(nums);
+    void solve(vector<int>& nums,vector<bool> &freq, vector<int> &temp,vector<vector<int>> &ans){
+        int n = nums.size();
+        if(temp.size()==n){
+            ans.push_back(temp);
             return;
-        } 
-        if(l>r) return;
-        
-        for(int i=l;i<=r;i++){
-            swap(nums[l],nums[i]);
-            generatePermultation(nums,l+1,r,ans);
-            swap(nums[l],nums[i]);
         }
         
+        for(int i=0;i<n;i++){
+            if(!freq[i]){
+                freq[i] = true;
+                temp.push_back(nums[i]);
+                solve(nums,freq,temp,ans);
+                freq[i] = false;
+                temp.pop_back();
+            }
+        }
     }
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
-        generatePermultation(nums,0,nums.size()-1,ans);
+        vector<bool> freq(nums.size(),false);
+        vector<int> temp;
+        solve(nums,freq,temp,ans);
         return ans;
     }
 };
