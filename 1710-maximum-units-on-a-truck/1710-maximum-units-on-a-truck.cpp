@@ -2,7 +2,7 @@
 
 bool boxComparator(vector<int> a ,vector<int> b){
     if(a[1]>b[1]) return true;
-    else if(a[1]==b[1] and a[0]<b[0]) return true;
+    // else if(a[1]==b[1] and a[0]<b[0]) return true;
     else{
         return false;
     }
