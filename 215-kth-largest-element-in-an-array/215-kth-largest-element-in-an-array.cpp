@@ -1,15 +1,39 @@
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        if(nums.size()==1) return nums[0];
-        priority_queue<int> pq(nums.begin(),nums.end());
-        int ans;
-        for(int i=0;i<k;i++){
-            if(!pq.empty()){
-                ans = pq.top();
-                pq.pop();
-            }
+    int partition(vector<int>& arr, int left, int right) {
+    int pivot = arr[left] ;
+    int l = left + 1 ;
+    int r = right;
+    while (l <= r) {
+        if (arr[l] < pivot && arr[r] > pivot) {
+            swap(arr[l], arr[r]);
+            l++ ;
+            r-- ;
         }
-        return ans;
+        if (arr[l] >= pivot) {
+            l++;
+        }
+        if (arr[r] <= pivot) {
+            r--;
+        }
+    }
+    swap(arr[left], arr[r]);
+    return r;
+}
+    int findKthLargest(vector<int>& nums, int k) {
+        int left = 0, right = nums.size() - 1, kth;
+        while (1) {
+        int idx = partition(nums, left, right);
+        if (idx == k - 1) {
+            kth = nums[idx];
+            break;
+        }
+        if (idx < k - 1) {
+            left = idx + 1;
+        } else {
+            right = idx - 1;
+        }
+    }
+    return kth;
     }
 };
