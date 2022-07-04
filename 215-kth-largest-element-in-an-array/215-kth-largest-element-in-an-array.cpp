@@ -1,34 +1,28 @@
 class Solution {
 public:
-    int partition(vector<int>& arr, int left, int right) {
-    int pivot = arr[left] ;
-    int l = left + 1 ;
-    int r = right;
-    while (l <= r) {
-        if (arr[l] < pivot && arr[r] > pivot) {
-            swap(arr[l], arr[r]);
-            l++ ;
-            r-- ;
+    int partition(vector<int> &nums,int l,int h){
+        int pivot = nums[h];
+        int i=l-1;
+        for(int j=l;j<h;j++){
+            if(nums[j]<pivot){
+                i++;
+                swap(nums[i],nums[j]);
+                
+            }
         }
-        if (arr[l] >= pivot) {
-            l++;
-        }
-        if (arr[r] <= pivot) {
-            r--;
-        }
+        swap(nums[i+1],nums[h]);
+        return i+1;
     }
-    swap(arr[left], arr[r]);
-    return r;
-}
     int findKthLargest(vector<int>& nums, int k) {
         int left = 0, right = nums.size() - 1, kth;
+        int n = nums.size();
         while (1) {
         int idx = partition(nums, left, right);
-        if (idx == k - 1) {
+        if (idx ==n- k ) {
             kth = nums[idx];
             break;
         }
-        if (idx < k - 1) {
+        if (idx < n-k ) {
             left = idx + 1;
         } else {
             right = idx - 1;
