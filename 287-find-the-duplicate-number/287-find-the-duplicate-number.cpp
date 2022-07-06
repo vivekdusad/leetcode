@@ -1,14 +1,13 @@
 class Solution {
 public:
+    int store(vector<int> &nums,int curr){
+        if(curr==nums[curr])
+            return curr;
+        int next = nums[curr];
+        nums[curr] = curr;
+        return store(nums,next);
+    }
     int findDuplicate(vector<int>& nums) {
-        for(int i=0;i<nums.size();i++){
-            int num = abs(nums[i]);
-            if(nums[num]<0){
-                return abs(num);
-            }else{
-                nums[num] = -nums[num];
-            }
-        }
-        return -1;
+        return store(nums,0);
     }
 };
