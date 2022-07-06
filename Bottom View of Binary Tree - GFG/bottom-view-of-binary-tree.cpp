@@ -112,11 +112,29 @@ class Solution {
         bottomview(root->right,level+1,dis+1,mp);
     }
     vector <int> bottomView(Node *root) {
-        map<int,pair<int,int>> mp;
+        map<int,int> mp;
+        queue<pair<Node*,int>> q;
         vector<int> ans;
-        bottomview(root,0,0,mp);
+        if(root==NULL) return ans;
+        q.push(make_pair(root,0));
+        
+        while(!q.empty()){
+            pair<Node*,int> p = q.front();
+            q.pop();
+            Node* curr = p.first;
+            int line = p.second;
+            mp[line] = curr->data;
+            if(curr->left != NULL){
+                q.push(make_pair(curr->left,line-1));
+            }
+            
+            if((p.first)->right != NULL){
+                q.push(make_pair(curr->right,line+1));
+            }
+        }
+        
         for(auto it:mp){
-            ans.push_back(it.second.second);
+            ans.push_back(it.second);
         }
         return ans;
     }
@@ -126,7 +144,14 @@ class Solution {
 
 
 
-
+/*
+map<int,pair<int,int>> mp;
+        vector<int> ans;
+        bottomview(root,0,0,mp);
+        for(auto it:mp){
+            ans.push_back(it.second.second);
+        }
+        return ans;*/
 
 // Height Displacment
 
