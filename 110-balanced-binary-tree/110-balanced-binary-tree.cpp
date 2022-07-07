@@ -17,7 +17,7 @@ public:
     }
     bool isBalanced(TreeNode* root) {
         int d = 0;
-        bool ans =  dfsHeight(root) != -1;
+        bool ans =  rec(root,d);
         return ans;
     }
     int dfsHeight (TreeNode *root) {
