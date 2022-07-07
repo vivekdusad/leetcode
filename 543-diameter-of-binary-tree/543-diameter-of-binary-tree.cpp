@@ -11,25 +11,17 @@
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        if(root==NULL) return 0;
-        return max(maxDepth(root->left),maxDepth(root->right))+1;
-    }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==NULL) return 0;
-        //there are two cases 
-        /*
-        
-        if diameter passes from the root 
-        then answer may be return maxDepth(root->left)+maxDepth(root->right);
-        if not passes then 
-        it may found in left  diameterOfBinaryTree(root->left);
-        or in right diameterOfBinaryTree(root->right)
-        
-        */
-        
-        int ans1 = maxDepth(root->left)+maxDepth(root->right);
-        int ans2 = max(diameterOfBinaryTree(root->left),diameterOfBinaryTree(root->right));
-        return max(ans1,ans2);
+        int d=0;
+        rec(root, d);
+        return d;
+    }
+    
+    int rec(TreeNode* root, int &d) {
+        if(root == NULL) return 0;
+        int ld = rec(root->left, d);
+        int rd = rec(root->right, d);
+        d=max(d,ld+rd);
+        return max(ld,rd)+1;
     }
 };
