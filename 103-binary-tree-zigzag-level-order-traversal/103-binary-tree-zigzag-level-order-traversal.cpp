@@ -16,27 +16,29 @@ public:
         if(root==NULL) return ans;
         queue<TreeNode*> q;
         q.push(root);
+        int count=0;
         while(!q.empty()){
             int size = q.size();
-            vector<int> temp;
+            list<int> ll;
             for(int i=0;i<size;i++){
                 TreeNode* currNode = q.front();
                 q.pop();                
                 if(currNode->left != NULL)  q.push(currNode->left);
                 if(currNode->right != NULL) q.push(currNode->right);
-                temp.push_back(currNode->val);
+                if(count%2==0){
+                    ll.push_back(currNode->val);
+                }else{
+                    ll.push_front(currNode->val);
+                }
             }
+            count++;
+            vector<int> temp(ll.begin(),ll.end());
             ans.push_back(temp);
         }
         return ans;
     }
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>> ans = levelOrder(root);
-        for(int i=0;i<ans.size();i++){
-            if(i%2!=0){
-                reverse(ans[i].begin(),ans[i].end());
-            }
-        }
-        return ans;
+        
+        return levelOrder(root);
     }
 };
