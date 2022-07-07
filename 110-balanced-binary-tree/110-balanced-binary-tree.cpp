@@ -16,14 +16,19 @@ public:
         return max(maxDepth(root->left),maxDepth(root->right))+1;
     }
     bool isBalanced(TreeNode* root) {
-        return rec(root);
+        int d = 0;
+        bool ans =  rec(root,d);
+        return ans;
     }
-    bool rec(TreeNode* root){
+    bool rec(TreeNode* root,int &d){
         if(root==NULL) return true;
-        int diff = abs(maxDepth(root->left)-maxDepth(root->right));
+        int leftDistance =0;
+        int rightDistance =0;
+        bool isLeftBal = rec(root->left,leftDistance);
+        bool isRightBal = rec(root->right,rightDistance);
+        int diff = abs(leftDistance-rightDistance);
         bool isBal = diff>=0 and diff<=1;
-        bool isBalLeft = rec(root->left);
-        bool isBalRight = rec(root->right);
-        return isBal and isBalRight and isBalLeft;
+        d = max(leftDistance,rightDistance)+1;
+        return isBal and isLeftBal and isRightBal;
     }
 };
