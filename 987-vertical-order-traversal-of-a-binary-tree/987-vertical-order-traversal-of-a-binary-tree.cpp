@@ -1,7 +1,5 @@
 class Solution {
-public:
-
-    
+public:    
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         vector<vector<int>> ans;
         if(root==NULL) return ans;
