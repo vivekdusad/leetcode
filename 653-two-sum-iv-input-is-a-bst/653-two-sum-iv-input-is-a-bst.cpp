@@ -12,46 +12,58 @@
 class BSTIterator {
 private:
     stack<TreeNode*> cache;
+    bool isReverse;
     void pushAll(TreeNode* root){
-        pushAllLeftElements(root);
-    }
-    void pushAllLeftElements(TreeNode* root){
+        if(root==NULL)return;
         auto node = root;
-        for (; node != NULL; cache.push(node), node = node->left);
+        for (; node != NULL;){
+            if(isReverse){
+                cache.push(node);
+                node = node->right;
+            }else{
+                cache.push(node);
+                node = node->left;
+            }
+        }
     }
+    
 public:
-    BSTIterator(TreeNode* root) {
+    BSTIterator(TreeNode* root,bool isReverse) {
+        this->isReverse = isReverse;
         pushAll(root);
     }
     
     int next() {
         auto topNode = cache.top();
         cache.pop();
-        if(topNode->right != NULL){            
-            pushAllLeftElements(topNode->right);
-        }
+        if(isReverse) pushAll(topNode->left);
+        else pushAll(topNode->right);
         return topNode->val;
     }
     
     
     bool hasNext() {
-        return !cache.empty();
+        return !cache.empty(); 
     }
     
 };
+//Space Complexity: O(N+H)
 class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
         if(root==NULL) return false;
         unordered_set<int> nodes;
-        BSTIterator bstItreator = BSTIterator(root);
-        while(bstItreator.hasNext()){
-            int nextElement = bstItreator.next();
-            int tempTarget = k-nextElement;
-            if(nodes.find(tempTarget) != nodes.end()){
-                return true;
+        BSTIterator start = BSTIterator(root,false);
+        BSTIterator end = BSTIterator(root,true);
+        int valueAtStart = start.next();
+        int valueAtEnd = end.next();
+        while(valueAtStart<valueAtEnd){           
+            int sum = valueAtStart + valueAtEnd;
+            if(sum==k) return true;
+            else if(sum<k){
+                valueAtStart = start.next();
             }else{
-                nodes.insert(nextElement);
+                valueAtEnd = end.next();
             }
         }
         return false;
