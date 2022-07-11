@@ -10,30 +10,33 @@
  * };
  */
 class BSTIterator {
-    stack<TreeNode *> myStack;
+private:
+    queue<TreeNode*> cache;
+    void pushAll(TreeNode* root){
+        if(root==NULL) return;
+        
+        pushAll(root->left);
+        cache.push(root);
+        pushAll(root->right);
+        return;
+    }
 public:
-    BSTIterator(TreeNode *root) {
+    BSTIterator(TreeNode* root) {
         pushAll(root);
     }
-
-    /** @return whether we have a next smallest number */
-    bool hasNext() {
-        return !myStack.empty();
-    }
-
-    /** @return the next smallest number */
+    
     int next() {
-        TreeNode *tmpNode = myStack.top();
-        myStack.pop();
-        pushAll(tmpNode->right);
-        return tmpNode->val;
+        auto top = cache.front();
+        cache.pop();
+        return top->val;
     }
-
-private:
-    void pushAll(TreeNode *node) {
-        for (; node != NULL; myStack.push(node), node = node->left);
+    
+    bool hasNext() {
+        return !cache.empty();
     }
+    
 };
+
 /**
  * Your BSTIterator object will be instantiated and called as such:
  * BSTIterator* obj = new BSTIterator(root);
