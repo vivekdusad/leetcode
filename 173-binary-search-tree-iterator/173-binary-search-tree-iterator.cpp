@@ -11,14 +11,17 @@
  */
 class BSTIterator {
 private:
-    queue<TreeNode*> cache;
+    stack<TreeNode*> cache;
     void pushAll(TreeNode* root){
-        if(root==NULL) return;
-        
-        pushAll(root->left);
-        cache.push(root);
-        pushAll(root->right);
-        return;
+        pushAllLeftElements(root);
+    }
+    void pushAllLeftElements(TreeNode* root){
+        auto currNode = root;
+        while(currNode->left != NULL){
+            cache.push(currNode);
+            currNode = currNode->left;
+        }
+        cache.push(currNode);
     }
 public:
     BSTIterator(TreeNode* root) {
@@ -26,10 +29,14 @@ public:
     }
     
     int next() {
-        auto top = cache.front();
+        auto topNode = cache.top();
         cache.pop();
-        return top->val;
+        if(topNode->right != NULL){            
+            pushAllLeftElements(topNode->right);
+        }
+        return topNode->val;
     }
+    
     
     bool hasNext() {
         return !cache.empty();
