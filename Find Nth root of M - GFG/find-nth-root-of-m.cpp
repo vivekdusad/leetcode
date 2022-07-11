@@ -16,7 +16,8 @@ class Solution{
 	{
 	    int l=1;
 	    int h=m;
-	    while(l<=h)
+	    int eps = 1e-6;
+	    while(h-l>=eps)
 	    {
 	        int mid=(l+h)/2;
 	        if(pow(mid,n)==m){
