@@ -4,25 +4,17 @@ public:
         for(auto it:nums) if(it%num !=0) return false;        
         return true;
     }
-    int minOperations(vector<int>& nums, vector<int>& numsDivide) {
-        map<int,int> mp;
-        for(auto it:nums){
-            if(mp.find(it) != mp.end()){
-                mp[it]++;
-            }else{
-                mp[it]=1;
+    int minOperations(vector<int>& nums, vector<int>& B) {
+        int gcdofB=B[0];
+        for(auto numDiv:B) gcdofB = gcd(gcdofB,numDiv);
+        
+        sort(nums.begin(),nums.end());
+        
+        for(int i=0;i<nums.size();i++){
+            if(gcdofB%nums[i]==0){
+                return i;
             }
         }
-        int ans = 0;
-        for(auto it:mp){
-            
-            bool isDiv = checkForDivisiblity(numsDivide,it.first);
-            if(!isDiv){
-                ans = ans+it.second;
-            }else{
-                break;
-            }
-        }
-        return ans==nums.size()?-1:ans;
+        return -1;
     }
 };
