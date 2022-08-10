@@ -29,13 +29,19 @@ public:
     int largestRectangleArea(vector<int>& heights) {
         //formula
         //Max => (right-left)*a[i]
-        int n = heights.size();
-        vector<int> left(n);
-        vector<int> right(n);
-        calcuate(heights,left,right,n);
-        int ans = INT_MIN;
-        for(int i=0;i<n;i++){
-            ans = max(ans,(right[i]-left[i]+1)*heights[i]);
+        int ans = 0;
+        stack<int> st;
+        int n =heights.size();
+        for(int i=0;i<=n;i++){
+            while(!st.empty() and (i==n or heights[st.top()]>heights[i])){
+                int height = heights[st.top()];
+                st.pop();
+                int width;
+                if(st.empty()) width = i;
+                else width = i-st.top()-1;
+                ans = max(ans,height*width);
+            }
+            st.push(i);
         }
         return ans;
     }
