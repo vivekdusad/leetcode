@@ -1,14 +1,11 @@
 class Solution {
-    string generateKey(string s1,string s2){
-        return s1+"__"+s2;
-    }
+   
    
     bool isScrambleUtil(string s1,string s2,unordered_map<string,bool> &cache){
         int n = s1.length();
         if(s1 == s2) return true;
-        if(s1=="" or s2=="") return false;
         
-        string key = generateKey(s1,s2);    
+        string key = s1+" "+s2;    
         //used the cached Result
         if(cache.find(key)!=cache.end()){
             return cache[key];
