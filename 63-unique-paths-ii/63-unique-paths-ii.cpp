@@ -15,12 +15,15 @@ public:
     }
     int uniquePathsWithObstacles(vector<vector<int>>& matrix) {
         int m = matrix.size(), n = matrix[0].size();
-        vector<vector<int> > dp(m + 1, vector<int> (n + 1, 0));
-        dp[0][1] = 1;
-        for (int i = 1; i <= m; i++)
-            for (int j = 1; j <= n; j++)
-                if (!matrix[i - 1][j - 1])
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-        return dp[m][n];
+        vector<int> prev(n+1,0);
+        prev[1] =1;
+        for (int i = 1; i <= m; i++){
+            vector<int> curr(n+1,0);
+            for (int j = 1; j <= n; j++){
+                if (!matrix[i - 1][j - 1]) curr[j] = prev[j] + curr[j - 1];
+            }
+            prev =curr;
+        }
+        return prev[n];
     }
 };
